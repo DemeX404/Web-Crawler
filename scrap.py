@@ -17,7 +17,7 @@ list_search = list()
 count = 0
 
 for i in id:
-    if count < 30:
+    if count < 10:
         entries = soup.find_all('tr', id=i['id'])
         comments = soup.find_all('a', href='item?id='+ i['id'])
         points = soup.find_all('span', id='score_'+ i['id'])
@@ -33,6 +33,39 @@ for i in id:
         break
     count += 1
 
-for search in list_search:
-    print(search)
+#All searches
+# for search in list_search:
+#     print(search)
+
+#Filter Comments
+filter_comments = list()
+
+for element_list in list_search:
+    if len(element_list.entry.split()) > 6:
+        num_comments = element_list.comments.split()[0]
+        if (num_comments.isdigit()):
+            num_comments = int(num_comments)
+            if len(filter_comments) == 0:
+                filter_comments.append(element_list)
+
+            else:
+                count = 0
+                controlInsert = False
+
+                for comments_list in filter_comments:
+                    if(num_comments > int(comments_list.comments.split()[0])):
+                        filter_comments.insert(count, element_list)
+                        controlInsert = True
+                        break
+                    count += 1
+        else:
+            filter_comments.append(element_list)
+
+for x in filter_comments:
+    print(x)
+
+
+
+
+
 
